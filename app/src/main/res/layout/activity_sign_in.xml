@@ -13,7 +13,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/colorPrimaryDark"
-        android:layout_marginBottom="50dp">
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        >
 
 
         <ImageView
@@ -29,12 +31,13 @@
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/txemailsin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="No Control"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="10dp"
-                />
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -43,17 +46,18 @@
             android:layout_height="wrap_content">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/txpassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Contraseña"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginVertical="10dp"
-                />
+                android:hint="Contraseña"
+                android:inputType="textPassword" />
 
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/btngotosignin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="INICIAR SESÓN"

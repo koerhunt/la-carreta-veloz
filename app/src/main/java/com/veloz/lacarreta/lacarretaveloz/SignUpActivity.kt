@@ -16,6 +16,7 @@ import android.R.attr.password
 import android.content.Intent
 import android.support.v4.app.FragmentActivity
 import android.util.Log
+import com.google.firebase.auth.UserProfileChangeRequest
 
 
 class SignUpActivity : AppCompatActivity() {
@@ -53,7 +54,7 @@ class SignUpActivity : AppCompatActivity() {
 
         //FIREBASE ATUH
         mAuth = FirebaseAuth.getInstance()
-        
+
         // Check if user is signed in (non-null) and update UI accordingly.
         var currentUser = mAuth?.currentUser
 
@@ -70,9 +71,19 @@ class SignUpActivity : AppCompatActivity() {
                                 Toast.makeText(applicationContext,"USUARIO REGISTRADO",Toast.LENGTH_SHORT).show()
                                 currentUser = mAuth!!.getCurrentUser()
 
-                                val intent = Intent(applicationContext,HomeActivity::class.java)
-                                startActivity(intent)
-                                finish()
+
+                                var profileupdate : UserProfileChangeRequest? = UserProfileChangeRequest
+                                        .Builder()
+                                        .setDisplayName(gotosignup?.text.toString())
+                                        .build()
+
+                                currentUser?.updateProfile(profileupdate!!)!!.addOnCompleteListener({ task ->
+                                    if (task.isSuccessful) {
+                                        val intent = Intent(applicationContext,HomeActivity::class.java)
+                                        startActivity(intent)
+                                        finish()
+                                    }
+                                })
 
                             } else {
 

@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp"
+            android:gravity="center"
             >
 
             <android.support.design.widget.TextInputLayout
@@ -92,7 +93,7 @@
                 android:id="@+id/gotosignup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="REGSITRARSE"
+                android:text="REGISTRARSE"
                 android:background="@color/colorAccent"
                 android:textColor="#FFF"
                 android:textSize="25sp"
