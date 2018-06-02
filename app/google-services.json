@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "539986524283",
+    "firebase_url": "https://la-carreta-veloz.firebaseio.com",
+    "project_id": "la-carreta-veloz",
+    "storage_bucket": "la-carreta-veloz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539986524283:android:ecd12267581d1a24",
+        "android_client_info": {
+          "package_name": "com.veloz.lacarreta.lacarretaveloz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539986524283-fogv4kllb7nmau4d85ppriqtobn4lme0.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "539986524283-fogv4kllb7nmau4d85ppriqtobn4lme0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiL34qsel1Mwh_E2yWXhzF2RL7_wf0iRg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
