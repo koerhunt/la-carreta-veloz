@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class PaymentMethodActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
@@ -35,28 +38,29 @@ public class PaymentMethodActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arraylist);
         lista.setAdapter(adapter);
 
+        //OBTENER AL USUARIO LOGEADO
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("pagos");
-        mDatabase.addChildEventListener(new ChildEventListener() {
+        //URL DE LA BASE DE DATOS
+        mDatabase = FirebaseDatabase.getInstance().getReference(("pagos/"+currentUser.getUid().toString()));
+
+
+        mDatabase.addValueEventListener(new ValueEventListener() {
+
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String v1 = dataSnapshot.getValue(String.class);
-                arraylist.add(v1);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                DataSnapshot sn;
+                arraylist.removeAll(arraylist);
+
+                Iterator<DataSnapshot> iterador = dataSnapshot.getChildren().iterator();
+
+                while(iterador.hasNext()){
+                    arraylist.add(iterador.next().getValue().toString());
+                }
+
                 adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
             }
 
@@ -65,16 +69,6 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
             }
         });
-
-
-        /*setContentView(R.layout.activity_payment_method);
-        ListView lista;
-        ArrayAdapter<String> adaptador;
-        lista = (ListView)findViewById(R.id.listView);
-        adaptador = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1);
-        lista.setAdapter(adaptador);*/
-
-
 
 
     }

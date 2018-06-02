@@ -60,14 +60,15 @@ class SignUpActivity : AppCompatActivity() {
         //FIREBASE ATUH
         mAuth = FirebaseAuth.getInstance()
 
+        //FIREBASE DATABASE
         database = FirebaseDatabase.getInstance()
-
 
         // Check if user is signed in (non-null) and update UI accordingly.
         var currentUser = mAuth?.currentUser
 
         //BUTTON ACTION
         gotosignup?.setOnClickListener { v ->
+
 
             if(!(email?.text.toString().equals("")||passwd?.text.toString().equals("")||email==null||passwd==null)){
 
@@ -91,13 +92,14 @@ class SignUpActivity : AppCompatActivity() {
                                         ""
                                 )
 
-
                                 //LAYOUT BINDING
-                                mrfdb!!.setValue(us)
+                                mrfdb!!.setValue(us).addOnCompleteListener(OnCompleteListener { task ->
+                                    val intent = Intent(applicationContext,HomeActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                })
 
-                                val intent = Intent(applicationContext,HomeActivity::class.java)
-                                startActivity(intent)
-                                finish()
+
 
                             } else {
 
