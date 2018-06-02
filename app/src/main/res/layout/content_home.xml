@@ -8,13 +8,6 @@
     tools:context=".HomeActivity"
     tools:showIn="@layout/app_bar_home">
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="103dp"
-        tools:layout_editor_absoluteY="160dp"
-        />
 
 
 

@@ -25,16 +25,20 @@ class SplashActivity : AppCompatActivity() {
 
     internal val mRunnableToHome: Runnable = Runnable {
         if (!isFinishing) {
-            val intent = null
+
+
+            mAuth = FirebaseAuth.getInstance()
 
             var currentUser = mAuth?.currentUser
 
             if(currentUser == null){
-                Intent(applicationContext,WelcomeActivity::class.java)
+                var intent  = Intent(applicationContext,WelcomeActivity::class.java)
+                startActivity(intent)
             }else{
-                Intent(applicationContext,HomeActivity::class.java)
+                var intent  = Intent(applicationContext,HomeActivity::class.java)
+                startActivity(intent)
             }
-            startActivity(intent)
+
             finish()
         }
     }

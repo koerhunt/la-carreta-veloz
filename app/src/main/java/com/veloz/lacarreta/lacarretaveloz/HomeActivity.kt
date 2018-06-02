@@ -1,5 +1,6 @@
 package com.veloz.lacarreta.lacarretaveloz
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -8,15 +9,25 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    //FIREBASE AUTH
+    var mAuth: FirebaseAuth? = null
+    var current_user = mAuth?.currentUser
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
+
+        mAuth = FirebaseAuth.getInstance()
+        current_user = mAuth?.currentUser
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -39,43 +50,28 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.home, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the HomeActivity/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
+
+            R.id.nav_payments-> {
+
 
             }
-            R.id.nav_slideshow -> {
+            R.id.nav_services -> {
 
             }
-            R.id.nav_manage -> {
+
+            R.id.nav_cuenta -> {
 
             }
-            R.id.nav_share -> {
-
+            R.id.nav_signout -> {
+                mAuth?.signOut()
+                var intent  = Intent(applicationContext,WelcomeActivity::class.java)
+                startActivity(intent)
+                finish()
             }
-            R.id.nav_send -> {
 
-            }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
