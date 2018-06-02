@@ -55,8 +55,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
 
             R.id.nav_payments-> {
-
-
+                var intent  = Intent(applicationContext,PaymentMethodActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_services -> {
 
