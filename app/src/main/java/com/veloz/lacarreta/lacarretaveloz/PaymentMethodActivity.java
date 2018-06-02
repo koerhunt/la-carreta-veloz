@@ -45,7 +45,6 @@ public class PaymentMethodActivity extends AppCompatActivity {
         //URL DE LA BASE DE DATOS
         mDatabase = FirebaseDatabase.getInstance().getReference(("pagos/"+currentUser.getUid().toString()));
 
-
         mDatabase.addValueEventListener(new ValueEventListener() {
 
             @Override
