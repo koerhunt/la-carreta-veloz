@@ -17,7 +17,9 @@ import android.content.Intent
 import android.support.v4.app.FragmentActivity
 import android.util.Log
 import com.google.firebase.auth.UserProfileChangeRequest
-
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.veloz.lacarreta.lacarretaveloz.UserProfile
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -36,6 +38,9 @@ class SignUpActivity : AppCompatActivity() {
     //FIREBASE AUTH
     var mAuth: FirebaseAuth? = null
 
+    //Firebase DATABASE
+    var database: FirebaseDatabase? = null
+    var mrfdb: DatabaseReference? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +60,9 @@ class SignUpActivity : AppCompatActivity() {
         //FIREBASE ATUH
         mAuth = FirebaseAuth.getInstance()
 
+        database = FirebaseDatabase.getInstance()
+
+
         // Check if user is signed in (non-null) and update UI accordingly.
         var currentUser = mAuth?.currentUser
 
@@ -71,19 +79,25 @@ class SignUpActivity : AppCompatActivity() {
                                 Toast.makeText(applicationContext,"USUARIO REGISTRADO",Toast.LENGTH_SHORT).show()
                                 currentUser = mAuth!!.getCurrentUser()
 
+                                //FIREBASE DB
+                                mrfdb = database?.getReference(("usuarios/"+currentUser?.uid!!))
 
-                                var profileupdate : UserProfileChangeRequest? = UserProfileChangeRequest
-                                        .Builder()
-                                        .setDisplayName(gotosignup?.text.toString())
-                                        .build()
+                                //Build user
+                                var us : UserProfile = UserProfile(
+                                        nocontrol!!.text.toString(),
+                                        carrera!!.text.toString(),
+                                        Integer.parseInt(semestre!!.text.toString()),
+                                        telefono!!.text.toString(),
+                                        ""
+                                )
 
-                                currentUser?.updateProfile(profileupdate!!)!!.addOnCompleteListener({ task ->
-                                    if (task.isSuccessful) {
-                                        val intent = Intent(applicationContext,HomeActivity::class.java)
-                                        startActivity(intent)
-                                        finish()
-                                    }
-                                })
+
+                                //LAYOUT BINDING
+                                mrfdb!!.setValue(us)
+
+                                val intent = Intent(applicationContext,HomeActivity::class.java)
+                                startActivity(intent)
+                                finish()
 
                             } else {
 
