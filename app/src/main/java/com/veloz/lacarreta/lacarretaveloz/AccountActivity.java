@@ -30,7 +30,7 @@ public class AccountActivity extends AppCompatActivity {
 
     TextView numcon;
     TextView nom;
-    TextView car;
+    TextView car                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ;
     TextView sem;
 
     DatabaseReference mDatabase;

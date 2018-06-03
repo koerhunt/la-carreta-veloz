@@ -36,7 +36,7 @@ public class PaymentMethodModel {
         return exp;
     }
 
-    public String getTitular() {
+    public String geteTitular() {
         return titular;
     }
 

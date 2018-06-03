@@ -56,6 +56,7 @@ public class ServicesActivity extends AppCompatActivity {
                 Iterator<DataSnapshot> iterador = dataSnapshot.getChildren().iterator();
 
                 while (iterador.hasNext()) {
+
                     arraylist.add(iterador.next().getValue().toString());
                 }
 

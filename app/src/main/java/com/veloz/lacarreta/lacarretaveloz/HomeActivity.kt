@@ -10,6 +10,8 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,7 +30,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var mAuth: FirebaseAuth? = null
     var current_user = mAuth?.currentUser
 
-    var mDatabase: DatabaseReference? = null
+    var database: FirebaseDatabase? = null
+    var mrfdb: DatabaseReference? = null
 
     var t1 : TextView? = null
     var t2 : TextView? = null
@@ -36,6 +39,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     //mapa
     private lateinit var mMap: GoogleMap
 
+
+    var nview  : NavigationView? = null
+    var hview : View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -58,15 +64,36 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
-        drawer_layout
-        toggle.syncState()
 
+
+        //get the edit text for show the user info
+        nview  = findViewById(R.id.nav_view)
+        hview = nview!!.getHeaderView(0)
+        t1 = hview?.findViewById(R.id.username)
+        t2 = hview?.findViewById(R.id.userphone)
+
+
+        toggle.syncState()
         nav_view.setNavigationItemSelectedListener(this)
+
 
         //inicializacion del mapa
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+
+        //FIREBASE DB
+        database = FirebaseDatabase.getInstance()
+        mrfdb = database?.getReference(("usuarios/"+current_user?.uid!!))
+
+        var listener : HomeValueEventListener = HomeValueEventListener()
+
+        listener.t1 = this.t1
+        listener.t2 = this.t2
+
+        mrfdb!!.addValueEventListener(listener)
+
 
     }
 
@@ -110,13 +137,27 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onMapReady(googleMap: GoogleMap?) {
         mMap = googleMap!!
 
-
         // Add a marker in Sydney and move the camera
         val itd = LatLng(24.032102,-104.646241)
 
         mMap.addMarker(MarkerOptions().position(itd).title("ITD"))
-        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(itd,14f) )
+        mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(itd,14f))
 
+
+    }
+
+    class HomeValueEventListener : ValueEventListener {
+
+        var t1 : TextView? = null
+        var t2 : TextView? = null
+
+        override fun onDataChange(data: DataSnapshot) {
+            t1?.text = data.child("nombre").getValue().toString()
+            t2?.text = data.child("telefono").getValue().toString()
+        }
+
+        override fun onCancelled(p0: DatabaseError) {
+        }
 
     }
 
