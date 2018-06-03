@@ -38,12 +38,12 @@ public class PaymentAdapter extends ArrayAdapter implements View.OnClickListener
 
         int position = (int)v.getTag();
         Object obj = getItem(position);
-        PaymentMethodModel dmod = (PaymentMethodModel)obj;
+        Services_model dmod = (Services_model)obj;
 
 
         AlertDialog.Builder al = new AlertDialog.Builder(mcontext);
         al.setTitle("DETALLES");
-        al.setMessage(dmod.getNotarjeta()+"\n"+"Titular: "+dmod.titular);
+        al.setMessage("Fecha: " + dmod.getFecha()+"\n"+"Distancia: "+dmod.getDistancia()+"\n"+"Costo: "+dmod.getCosto()+"\n"+"Conductor: "+dmod.getConductor());
         al.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -60,7 +60,7 @@ public class PaymentAdapter extends ArrayAdapter implements View.OnClickListener
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        PaymentMethodModel md = (PaymentMethodModel) getItem(position);
+        Services_model md = (Services_model) getItem(position);
 
         ViewHolder vholder;
 
@@ -87,8 +87,8 @@ public class PaymentAdapter extends ArrayAdapter implements View.OnClickListener
 
         lastPosition = position;
 
-        vholder.displaytxt.setText(md.getNotarjeta());
-        vholder.img.setImageResource(R.drawable.ic_credit_card_2);
+        vholder.displaytxt.setText(md.getFecha());
+        vholder.img.setImageResource(R.drawable.ic_logistics_delivery_truck);
 
         vholder.displaytxt.setOnClickListener(this);
         vholder.displaytxt.setTag(position);

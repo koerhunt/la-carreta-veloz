@@ -24,7 +24,7 @@ public class ServicesActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     ListView lista = null;
     ArrayAdapter<String> adapter;
-    ArrayList<String> arraylist;
+    ArrayList<Services_model> arraylist;
 
 
     @Override
@@ -34,7 +34,7 @@ public class ServicesActivity extends AppCompatActivity {
 
         lista = (ListView) findViewById(R.id.listaserv);
         arraylist = new ArrayList<>();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arraylist);
+        adapter = new ServicesAdapter(this, arraylist);
         lista.setAdapter(adapter);
 
         //OBTENER AL USUARIO LOGEADO
@@ -56,7 +56,17 @@ public class ServicesActivity extends AppCompatActivity {
                 Iterator<DataSnapshot> iterador = dataSnapshot.getChildren().iterator();
 
                 while (iterador.hasNext()) {
-                    arraylist.add(iterador.next().getValue().toString());
+                    DataSnapshot a = iterador.next();
+
+                    Services_model sm = new Services_model(
+                            (boolean) a.child("estado").getValue(),
+                            a.child("costo").getValue().toString(),
+                            a.child("distancia").getValue().toString(),
+                            a.child("fecha").getValue().toString(),
+                            a.child("conductor").getValue().toString()
+                    );
+
+                    arraylist.add(sm);
                 }
 
                 adapter.notifyDataSetChanged();
