@@ -25,14 +25,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="ELIAS SANCHEZ PEREZ"
+        android:text="Sebastian Hernandez"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/userphone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="618 234 2342" />
+        android:text="618 123 2345" />
 
 
 </LinearLayout>
