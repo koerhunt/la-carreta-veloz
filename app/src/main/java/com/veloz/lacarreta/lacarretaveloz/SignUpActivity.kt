@@ -32,6 +32,7 @@ class SignUpActivity : AppCompatActivity() {
     private var telefono : EditText? = null
     private var carrera : EditText? = null
     private var semestre : EditText? = null
+    private var nombre: EditText? = null
 
 
 
@@ -54,6 +55,7 @@ class SignUpActivity : AppCompatActivity() {
         telefono = findViewById<EditText>(R.id.telefono)
         carrera = findViewById<EditText>(R.id.carrera)
         semestre = findViewById<EditText>(R.id.semestre)
+        nombre = findViewById<EditText>(R.id.nombre)
 
         gotosignup= findViewById<Button>(R.id.gotosignup)
 
@@ -89,7 +91,7 @@ class SignUpActivity : AppCompatActivity() {
                                         carrera!!.text.toString(),
                                         Integer.parseInt(semestre!!.text.toString()),
                                         telefono!!.text.toString(),
-                                        ""
+                                        nombre!!.text.toString()
                                 )
 
                                 //LAYOUT BINDING

@@ -56,7 +56,6 @@ public class AccountActivity extends AppCompatActivity {
                 int count=0;
                 Iterator<DataSnapshot> iterador = dataSnapshot.getChildren().iterator();
 
-                Toast.makeText(AccountActivity.this,"INFORMACION RECIBIDA",Toast.LENGTH_SHORT).show();
 
                 while(iterador.hasNext()){
                     switch (count){

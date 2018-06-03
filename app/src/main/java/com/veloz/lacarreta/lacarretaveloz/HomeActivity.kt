@@ -30,7 +30,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         current_user = mAuth?.currentUser
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "Obteniendo choferes, por favor espere...", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
 
@@ -59,13 +59,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(intent)
             }
             R.id.nav_services -> {
-
+                var intent  = Intent(applicationContext,ServicesActivity::class.java)
+                startActivity(intent)
             }
 
             R.id.nav_cuenta -> {
                 var intent  = Intent(applicationContext,AccountActivity::class.java)
                 startActivity(intent)
-
             }
             R.id.nav_signout -> {
                 mAuth?.signOut()

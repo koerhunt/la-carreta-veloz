@@ -8,16 +8,12 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.android.gms.common.images.ImageRequest;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class PaymentAdapter extends ArrayAdapter implements View.OnClickListener{
 
@@ -31,8 +27,8 @@ public class PaymentAdapter extends ArrayAdapter implements View.OnClickListener
         TextView displaytxt;
     }
 
-    public PaymentAdapter(@NonNull ArrayList<PaymentMethodModel> data, Context context) {
-        super(context,R.layout.payment_method_item, data);
+    public PaymentAdapter(Context context,@NonNull ArrayList<PaymentMethodModel> data) {
+        super(context,R.layout.list_with_icon_item, data);
         this.dataSet = data;
         this.mcontext = context;
     }
@@ -40,27 +36,24 @@ public class PaymentAdapter extends ArrayAdapter implements View.OnClickListener
     @Override
     public void onClick(View v) {
 
-        int position = (Integer)v.getTag();
+        int position = (int)v.getTag();
         Object obj = getItem(position);
-
-        switch (v.getId()){
-            case R.id.display_name_tag:
-
-                final AlertDialog.Builder al = new AlertDialog.Builder(mcontext);
-                al.setTitle("DETALLES");
-                al.setMessage("aqui va lo que quieres imprimir");
-                al.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                al.create();
-                al.show();
+        PaymentMethodModel dmod = (PaymentMethodModel)obj;
 
 
-                break;
-        }
+        AlertDialog.Builder al = new AlertDialog.Builder(mcontext);
+        al.setTitle("DETALLES");
+        al.setMessage(dmod.getNotarjeta()+"\n"+"Titular: "+dmod.titular);
+        al.setPositiveButton("Cerrar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        al.create();
+        al.show();
+
+
     }
 
     @NonNull
@@ -78,9 +71,10 @@ public class PaymentAdapter extends ArrayAdapter implements View.OnClickListener
             vholder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
 
-            convertView = inflater.inflate(R.layout.payment_method_item,parent,false);
+            convertView = inflater.inflate(R.layout.list_with_icon_item,parent,false);
 
             vholder.displaytxt = (TextView)convertView.findViewById(R.id.display_name_tag);
+            vholder.img = (ImageView)convertView.findViewById(R.id.list_icon);
 
             result = convertView;
 
@@ -94,6 +88,10 @@ public class PaymentAdapter extends ArrayAdapter implements View.OnClickListener
         lastPosition = position;
 
         vholder.displaytxt.setText(md.getNotarjeta());
+        vholder.img.setImageResource(R.drawable.ic_credit_card_2);
+
+        vholder.displaytxt.setOnClickListener(this);
+        vholder.displaytxt.setTag(position);
 
         return convertView;
 

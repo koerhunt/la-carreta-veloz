@@ -19,7 +19,13 @@ public class PaymentMethodModel {
     }
 
     public String getNotarjeta() {
-        return notarjeta;
+        try{
+            String s = "xxxx-xxxx-xxxx-"+this.notarjeta.substring(15);
+            return s;
+        }catch(StringIndexOutOfBoundsException s){
+            return this.notarjeta;
+        }
+
     }
 
     public String getCvs() {
@@ -32,5 +38,21 @@ public class PaymentMethodModel {
 
     public String getTitular() {
         return titular;
+    }
+
+    public void setNotarjeta(String notarjeta) {
+        this.notarjeta = notarjeta;
+    }
+
+    public void setCvs(String cvs) {
+        this.cvs = cvs;
+    }
+
+    public void setExpdate(String expdate) {
+        this.expdate = expdate;
+    }
+
+    public void setTitular(String titular) {
+        this.titular = titular;
     }
 }

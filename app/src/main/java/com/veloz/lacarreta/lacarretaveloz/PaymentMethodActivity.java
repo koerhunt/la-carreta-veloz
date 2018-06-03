@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -26,16 +27,21 @@ public class PaymentMethodActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     ListView lista=null;
     ArrayAdapter<String> adapter;
-    ArrayList <String> arraylist;
+    ArrayList <PaymentMethodModel> arraylist;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_method);
 
+        //LISTVIEW
         lista = (ListView)findViewById(R.id.milista);
+
+        //ARRAYLIST
         arraylist = new ArrayList<>();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arraylist);
+
+        //ADAPTER
+        adapter = new PaymentAdapter(this, arraylist);
         lista.setAdapter(adapter);
 
         //OBTENER AL USUARIO LOGEADO
@@ -45,18 +51,30 @@ public class PaymentMethodActivity extends AppCompatActivity {
         //URL DE LA BASE DE DATOS
         mDatabase = FirebaseDatabase.getInstance().getReference(("pagos/"+currentUser.getUid().toString()));
 
+
+        //OBTENER DATOS DE LA BASE DE DATOS
         mDatabase.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                DataSnapshot sn;
                 arraylist.removeAll(arraylist);
 
                 Iterator<DataSnapshot> iterador = dataSnapshot.getChildren().iterator();
 
                 while(iterador.hasNext()){
-                    arraylist.add(iterador.next().getValue().toString());
+
+                    DataSnapshot a = iterador.next();
+
+                    PaymentMethodModel pm = new PaymentMethodModel(
+                            a.child("tarjeta").getValue().toString(),
+                            a.child("cvs").getValue().toString(),
+                            a.child("exp").getValue().toString(),
+                            a.child("titular").getValue().toString()
+                    );
+
+                    arraylist.add(pm);
+
                 }
 
                 adapter.notifyDataSetChanged();
@@ -72,3 +90,4 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
     }
 }
+
