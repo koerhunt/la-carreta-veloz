@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="15041247"
+                android:text=""
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/etext_size" />
         </LinearLayout>
@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="ELIAS SANCHEZ"
+                android:text=""
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/etext_size" />
         </LinearLayout>
@@ -106,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="SISTEMAS"
+                android:text=""
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/etext_size" />
         </LinearLayout>
@@ -134,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="6to"
+                android:text=""
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/etext_size" />
         </LinearLayout>

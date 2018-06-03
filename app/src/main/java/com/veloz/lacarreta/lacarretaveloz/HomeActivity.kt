@@ -63,17 +63,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             R.id.nav_cuenta -> {
-                mAuth?.signOut()
                 var intent  = Intent(applicationContext,AccountActivity::class.java)
                 startActivity(intent)
-                finish()
 
             }
             R.id.nav_signout -> {
                 mAuth?.signOut()
                 var intent  = Intent(applicationContext,WelcomeActivity::class.java)
                 startActivity(intent)
-                finish()
             }
 
         }
