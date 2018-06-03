@@ -1,8 +1,10 @@
 package com.veloz.lacarreta.lacarretaveloz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +36,9 @@ public class PaymentMethodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_method);
 
+        //floatbutton
+        FloatingActionButton fltbtn =  findViewById(R.id.payment_method_fbtn);
+
         //LISTVIEW
         lista = (ListView)findViewById(R.id.milista);
 
@@ -50,7 +55,6 @@ public class PaymentMethodActivity extends AppCompatActivity {
 
         //URL DE LA BASE DE DATOS
         mDatabase = FirebaseDatabase.getInstance().getReference(("pagos/"+currentUser.getUid().toString()));
-
 
         //OBTENER DATOS DE LA BASE DE DATOS
         mDatabase.addValueEventListener(new ValueEventListener() {
@@ -87,7 +91,13 @@ public class PaymentMethodActivity extends AppCompatActivity {
             }
         });
 
-
+        fltbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),RCreditCardActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }
 

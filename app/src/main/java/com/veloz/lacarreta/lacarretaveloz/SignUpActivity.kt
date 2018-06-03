@@ -109,10 +109,8 @@ class SignUpActivity : AppCompatActivity() {
                                 Toast.makeText(applicationContext,"USUARIO NO REGISTRADO",Toast.LENGTH_SHORT).show()
 
                             }
-
                         }
-                    }
                 }
-
             }
         }
+    }

@@ -2,9 +2,9 @@ package com.veloz.lacarreta.lacarretaveloz;
 
 public class PaymentMethodModel {
 
-    public String notarjeta;
+    public String tarjeta;
     public String cvs;
-    public String expdate;
+    public String exp;
     public String titular;
 
     public PaymentMethodModel(){
@@ -12,18 +12,18 @@ public class PaymentMethodModel {
     };
 
     public PaymentMethodModel(String notarjeta, String cvs, String expdate, String titular) {
-        this.notarjeta = notarjeta;
+        this.tarjeta = notarjeta;
         this.cvs = cvs;
-        this.expdate = expdate;
+        this.exp= expdate;
         this.titular = titular;
     }
 
     public String getNotarjeta() {
         try{
-            String s = "xxxx-xxxx-xxxx-"+this.notarjeta.substring(15);
+            String s = "xxxx-xxxx-xxxx-"+this.tarjeta.substring(15);
             return s;
         }catch(StringIndexOutOfBoundsException s){
-            return this.notarjeta;
+            return this.tarjeta;
         }
 
     }
@@ -33,7 +33,7 @@ public class PaymentMethodModel {
     }
 
     public String getExpdate() {
-        return expdate;
+        return exp;
     }
 
     public String getTitular() {
@@ -41,7 +41,7 @@ public class PaymentMethodModel {
     }
 
     public void setNotarjeta(String notarjeta) {
-        this.notarjeta = notarjeta;
+        this.tarjeta = notarjeta;
     }
 
     public void setCvs(String cvs) {
@@ -49,7 +49,7 @@ public class PaymentMethodModel {
     }
 
     public void setExpdate(String expdate) {
-        this.expdate = expdate;
+        this.exp= expdate;
     }
 
     public void setTitular(String titular) {
