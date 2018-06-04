@@ -1,12 +1,16 @@
 package com.veloz.lacarreta.lacarretaveloz
 
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -19,10 +23,15 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_home.*
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.maps.android.PolyUtil
+
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
@@ -32,6 +41,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     var database: FirebaseDatabase? = null
     var mrfdb: DatabaseReference? = null
+
+    var mrfcdb: DatabaseReference? = null
 
     var t1 : TextView? = null
     var t2 : TextView? = null
@@ -53,10 +64,28 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mAuth = FirebaseAuth.getInstance()
         current_user = mAuth?.currentUser
 
+        //FIREBASE DB
+        database = FirebaseDatabase.getInstance()
+
+
         //accion del boton
         fab.setOnClickListener { view ->
+
             Snackbar.make(view, "Obteniendo choferes, por favor espere...", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
+
+            mrfcdb = database!!.getReference()
+            var myTopPostsQuery = mrfcdb!!.child("servicios")
+
+
+            var listener2 = HomeConductoresRetriveData()
+            listener2.view = view
+            listener2.mcontext = this
+            listener2.mMap= mMap
+
+            myTopPostsQuery!!.addValueEventListener(listener2)
+
+
         }
 
 
@@ -82,9 +111,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-
-        //FIREBASE DB
-        database = FirebaseDatabase.getInstance()
         mrfdb = database?.getReference(("usuarios/"+current_user?.uid!!))
 
         var listener : HomeValueEventListener = HomeValueEventListener()
@@ -143,7 +169,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mMap.addMarker(MarkerOptions().position(itd).title("ITD"))
         mMap.moveCamera( CameraUpdateFactory.newLatLngZoom(itd,14f))
 
-
     }
 
     class HomeValueEventListener : ValueEventListener {
@@ -160,5 +185,72 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
     }
+
+
+    class HomeConductoresRetriveData : ValueEventListener {
+
+        var view : View? = null
+        var mcontext : Context? = null
+        var mMap : GoogleMap? = null
+
+
+        override fun onCancelled(p0: DatabaseError) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+            var c = 0
+
+            var lastdata : DataSnapshot? = null
+
+            for (postSnapshot in dataSnapshot.children) {
+
+                for(post2Snapshot in postSnapshot.children){
+
+                    if(post2Snapshot.child("estado").value ==true){
+                        lastdata = post2Snapshot
+                        c++
+                    }
+
+                }
+            }
+
+            Snackbar.make(view!!, "Encontrados: "+c+" conductores disponibles", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+
+            if(lastdata!=null){
+                val al = AlertDialog.Builder(mcontext!!)
+                al.setTitle("DETALLES")
+                al.setMessage(lastdata.child("conductor").getValue().toString())
+                al.setIcon(R.drawable.ic_logistics_delivery_truck)
+                al.setPositiveButton("Confirmar") { dialogInterface, i ->
+                    var s = "mmqqCfvq}RwGPyDFLfEX`KTtJLdFFfD{@?s@@gAFgGJ_DH_FFgJRuDDuDN}KN[@@nCoBN_Jx@gGf@U@f@fHd@bHl@~IvAfSFz@MXNPfAtAFjAXbELx@eFbAuDv@SuA"
+
+                    var decodedPoints : List<LatLng>  = CarretaUtils.decode(s)
+                    var options  = PolylineOptions()
+
+                    options.width(6f)
+                    options.color(Color.RED)
+                    options.addAll(decodedPoints)
+
+                    mMap!!.addPolyline(options)
+                }
+                al.setNegativeButton("Cancelar") { dialogInterface, i -> dialogInterface.cancel() }
+                al.create()
+                al.show()
+
+            }
+
+        }
+
+
+
+
+
+    }
+
+
+
 
 }

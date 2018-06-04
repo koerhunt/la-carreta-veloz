@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">La Carreta Veloz</string>
 
-    <string name="title_activity_splash">Splash</string>
+    <string name="title_activity_splash">La Carreta Veloz</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_home">Home</string>
