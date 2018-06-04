@@ -28,25 +28,26 @@ class SignInActivity : AppCompatActivity() {
         txemailsin = findViewById(R.id.txemailsin)
         txpassword = findViewById(R.id.txpassword)
 
-
         btngotosignin?.setOnClickListener({
-            mAuth!!.signInWithEmailAndPassword(txemailsin?.text.toString(),txpassword?.text.toString())
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
 
-                            val intent = Intent(applicationContext,HomeActivity::class.java)
-                            startActivity(intent)
-                            finish()
 
-                        } else {
-
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(applicationContext,"USUARIO O CONTRASEÑA INCORRECTOS", Toast.LENGTH_SHORT).show()
-
+            if(txemailsin!!.text.toString().equals("")||txpassword!!.text.toString().equals("")){
+               Toast.makeText(this,"Por favor llena los campos",Toast.LENGTH_LONG).show()
+            }else{
+                mAuth!!.signInWithEmailAndPassword(txemailsin?.text.toString(),txpassword?.text.toString())
+                        .addOnCompleteListener(this) { task ->
+                            if (task.isSuccessful) {
+                                val intent = Intent(applicationContext,HomeActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Toast.makeText(applicationContext,"USUARIO O CONTRASEÑA INCORRECTOS", Toast.LENGTH_SHORT).show()
+                            }
                         }
+            }
 
-                    }
-            })
+        })
 
-        }
+    }
 }

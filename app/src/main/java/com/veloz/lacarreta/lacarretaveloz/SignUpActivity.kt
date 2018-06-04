@@ -72,44 +72,76 @@ class SignUpActivity : AppCompatActivity() {
         gotosignup?.setOnClickListener { v ->
 
 
-            if(!(email?.text.toString().equals("")||passwd?.text.toString().equals("")||email==null||passwd==null)){
 
-                mAuth!!.createUserWithEmailAndPassword(email?.text.toString(),passwd?.text.toString())
-                        .addOnCompleteListener(this) { task ->
-                            if (task.isSuccessful) {
+            var todalainfo = true
 
-                                // Sign in success, update UI with the signed-in user's information
-                                Toast.makeText(applicationContext,"USUARIO REGISTRADO",Toast.LENGTH_SHORT).show()
-                                currentUser = mAuth!!.getCurrentUser()
-
-                                //FIREBASE DB
-                                mrfdb = database?.getReference(("usuarios/"+currentUser?.uid!!))
-
-                                //Build user
-                                var us : UserProfile = UserProfile(
-                                        nocontrol!!.text.toString(),
-                                        carrera!!.text.toString(),
-                                        Integer.parseInt(semestre!!.text.toString()),
-                                        telefono!!.text.toString(),
-                                        nombre!!.text.toString()
-                                )
-
-                                //LAYOUT BINDING
-                                mrfdb!!.setValue(us).addOnCompleteListener(OnCompleteListener { task ->
-                                    val intent = Intent(applicationContext,HomeActivity::class.java)
-                                    startActivity(intent)
-                                    finish()
-                                })
+            if(nocontrol!!.text.toString().equals("")){
+                todalainfo = false
+            }
+            if(email!!.text.toString().equals("")){
+                todalainfo = false
+            }
+            if(passwd!!.text.toString().equals("")){
+                todalainfo = false
+            }
+            if(telefono!!.text.toString().equals("")){
+                todalainfo = false
+            }
+            if(carrera!!.text.toString().equals("")){
+                todalainfo = false
+            }
+            if(semestre!!.text.toString().equals("")){
+                todalainfo = false
+            }
+            if(nombre!!.text.toString().equals("")){
+                todalainfo = false
+            }
 
 
+            if(!todalainfo){
+                Toast.makeText(this,"LLena todos los campos para proceder a tu registro",Toast.LENGTH_LONG).show()
+            }
 
-                            } else {
+            if(todalainfo){
+                if(!(email?.text.toString().equals("")||passwd?.text.toString().equals("")||email==null||passwd==null)){
 
-                                // If sign in fails, display a message to the user.
-                                Toast.makeText(applicationContext,"USUARIO NO REGISTRADO",Toast.LENGTH_SHORT).show()
+                    mAuth!!.createUserWithEmailAndPassword(email?.text.toString(),passwd?.text.toString())
+                            .addOnCompleteListener(this) { task ->
+                                if (task.isSuccessful) {
 
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Toast.makeText(applicationContext,"USUARIO REGISTRADO",Toast.LENGTH_SHORT).show()
+                                    currentUser = mAuth!!.getCurrentUser()
+
+                                    //FIREBASE DB
+                                    mrfdb = database?.getReference(("usuarios/"+currentUser?.uid!!))
+
+                                    //Build user
+                                    var us : UserProfile = UserProfile(
+                                            nocontrol!!.text.toString(),
+                                            carrera!!.text.toString(),
+                                            Integer.parseInt(semestre!!.text.toString()),
+                                            telefono!!.text.toString(),
+                                            nombre!!.text.toString()
+                                    )
+
+                                    //LAYOUT BINDING
+                                    mrfdb!!.setValue(us).addOnCompleteListener(OnCompleteListener { task ->
+                                        val intent = Intent(applicationContext,HomeActivity::class.java)
+                                        startActivity(intent)
+                                        finish()
+                                    })
+
+
+
+                                } else {
+
+                                    // If sign in fails, display a message to the user.
+                                    Toast.makeText(applicationContext,"USUARIO NO REGISTRADO, Verifica tu informacion",Toast.LENGTH_SHORT).show()
+
+                                }
                             }
-                        }
+                   }
                 }
             }
         }

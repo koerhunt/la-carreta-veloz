@@ -29,6 +29,22 @@ class RCreditCardActivity : AppCompatActivity() {
 
     var btn: Button? = null
 
+    fun removenumbers( str : String) : String {
+
+        var ns = str.replace('0','X')
+        ns = ns.replace('1','X')
+        ns = ns.replace('2','X')
+        ns = ns.replace('3','X')
+        ns = ns.replace('4','X')
+        ns = ns.replace('5','X')
+        ns = ns.replace('6','X')
+        ns = ns.replace('7','X')
+        ns = ns.replace('8','X')
+        ns = ns.replace('9','X')
+
+        return ns
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,25 +72,59 @@ class RCreditCardActivity : AppCompatActivity() {
         //BUTTON ACTION
         btn!!.setOnClickListener { v ->
 
-            //FIREBASE DB
-            mrfdb = database?.getReference(("pagos/"+currentUser?.uid!!))
+            var valid = true
 
-            var pm = PaymentMethodModel(
-                    tarjeta!!.text.toString(),
-                    cvs!!.text.toString(),
-                    exp!!.text.toString(),
-                    titular!!.text.toString()
-            )
+            //validar datos
+            if(removenumbers(tarjeta!!.text.toString())!="XXXX-XXXX-XXXX-XXXX"){
+                if(valid){
+                    Toast.makeText(this,"Formato de tarjeta no valido, debe ser 16 digitos separados por '-' cada 4 ",Toast.LENGTH_LONG).show()
+                }
+                valid = false
+            }
 
-            var key = mrfdb!!.push().key
+            if(removenumbers(cvs!!.text.toString())!="XXX"){
+                if(valid){
+                    Toast.makeText(this,"Formato de SVC incorrecto, deben ser 3 digitos ",Toast.LENGTH_LONG).show()
+                }
+                valid = false
+            }
 
-            mrfdb = database?.getReference(("pagos/"+currentUser?.uid!!)+"/"+key)
+            if(removenumbers(exp!!.text.toString())!="XX/XX"){
+                if(valid){
+                    Toast.makeText(this,"Formato de expiracion incorrecto, deben ser: mm/aa",Toast.LENGTH_LONG).show()
+                }
+                valid = false
+            }
 
-            mrfdb!!.setValue(pm).addOnCompleteListener(OnCompleteListener { task ->
-                Toast.makeText(this,"TARJETA REGISTRADA",Toast.LENGTH_LONG).show()
-                finish()
-            })
+            if(titular!!.text.toString().equals("")){
+                if(valid){
+                    Toast.makeText(this,"Debe especificar el titular de la cuenta",Toast.LENGTH_LONG).show()
+                }
+                valid = false
+            }
 
+            if(valid){
+
+                //FIREBASE DB
+                mrfdb = database?.getReference(("pagos/"+currentUser?.uid!!))
+
+                var pm = PaymentMethodModel(
+                        tarjeta!!.text.toString(),
+                        cvs!!.text.toString(),
+                        exp!!.text.toString(),
+                        titular!!.text.toString()
+                )
+
+                var key = mrfdb!!.push().key
+
+                mrfdb = database?.getReference(("pagos/"+currentUser?.uid!!)+"/"+key)
+
+                mrfdb!!.setValue(pm).addOnCompleteListener(OnCompleteListener { task ->
+                    Toast.makeText(this,"TARJETA REGISTRADA",Toast.LENGTH_LONG).show()
+                    finish()
+                })
+
+            }
 
         }
 
